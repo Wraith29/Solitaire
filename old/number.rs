@@ -1,6 +1,5 @@
-#[derive(Clone, Copy)]
+#[derive(PartialEq, Clone, Copy)]
 pub enum Number {
-    Ace,
     Two,
     Three,
     Four,
@@ -10,6 +9,7 @@ pub enum Number {
     Eight,
     Nine,
     Ten,
+    Ace,
     Jack,
     Queen,
     King,
@@ -18,7 +18,6 @@ pub enum Number {
 impl ToString for Number {
     fn to_string(&self) -> String {
         match self {
-            Number::Ace => "A",
             Number::Two => "2",
             Number::Three => "3",
             Number::Four => "4",
@@ -28,6 +27,7 @@ impl ToString for Number {
             Number::Eight => "8",
             Number::Nine => "9",
             Number::Ten => "10",
+            Number::Ace => "A",
             Number::Jack => "J",
             Number::Queen => "Q",
             Number::King => "K",
