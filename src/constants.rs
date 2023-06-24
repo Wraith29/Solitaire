@@ -9,3 +9,7 @@ pub const CARD_WIDTH: i32 = 135;
 pub const CARD_HEIGHT: i32 = 210;
 
 pub const FONT_SIZE: i32 = 32;
+
+/// The width of a Tableau
+/// Including the Border
+pub const TABLEAU_WIDTH: i32 = 155;

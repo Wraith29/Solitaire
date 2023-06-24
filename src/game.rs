@@ -22,7 +22,7 @@ impl Game {
 
         let mut total = 0;
 
-        let tableaus = (0..=6)
+        let tableaus = (1..=7)
             .map(|i| {
                 let cards = deck[total..total + (i as usize)].to_vec();
                 let tableau = Tableau::new(i, cards);

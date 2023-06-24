@@ -2,7 +2,7 @@ use raylib::prelude::{Color, RaylibDrawHandle};
 
 use crate::{
     card::Card,
-    constants::{CARD_HEIGHT, CARD_WIDTH, WINDOW_WIDTH},
+    constants::{CARD_HEIGHT, CARD_WIDTH, TABLEAU_WIDTH, WINDOW_WIDTH},
     entity::Entity,
 };
 
@@ -14,31 +14,63 @@ pub struct Tableau {
 
 impl Tableau {
     pub fn new(offset: i32, cards: Vec<Card>) -> Tableau {
-        // There should be a 400? pixel margin
+        /*
+        7 Tableaus
+        Tableau Width: CARD_WIDTH
+        Tableau Margin: 15
 
-        // this accounts for 1 border per tableau, the total size required will be
-        // this * 7 + 15
-        let individual_tableau_width = CARD_WIDTH + 15;
-        let total_tableau_width = (individual_tableau_width * 7) + 15;
-        let tableau_available_space = WINDOW_WIDTH;
+        | = Margin
+        T = Tableau
 
-        let left_margin = (tableau_available_space - total_tableau_width) / 2;
-        let width_offset = CARD_WIDTH * offset;
-        let margin_offset = 15 * (offset + 1);
+        |T|T|T|T|T|T|T|
 
-        let x_pos = left_margin + width_offset + margin_offset;
+        total_tableau_width = 7 * TABLEAU_WIDTH + 8 * TABLEAU_MARGIN
 
-        let height = CARD_HEIGHT + (30 * (offset + 1));
-        let entity = Entity::new(x_pos, 15, CARD_WIDTH, height, Color::WHITE, Color::BLACK, 5);
+        window_width - total_tableau_width
+        */
+        // 15 is the margin between tableaus
+        let total_tableau_width = (TABLEAU_WIDTH * 7) + (15 * 8);
+        let outer_margin_per_side = (WINDOW_WIDTH - total_tableau_width) / 2;
+
+        // outer margin per side is the baseline x coord offset
+        // the 15 is for the left hand margin of the card
+        // the tableau_width + 15 is accounting for each tableau and it's margin
+        // that comes before this one
+        let x_coord = outer_margin_per_side + ((TABLEAU_WIDTH + 15) * offset);
+
+        let height = CARD_HEIGHT + 15 + (15 * offset);
+        let entity = Entity::new(
+            x_coord,
+            15,
+            CARD_WIDTH,
+            height,
+            Color::WHITE,
+            Color::BLACK,
+            5,
+        );
+
+        let updated_cards = cards
+            .iter()
+            .enumerate()
+            .map(|(index, card)| {
+                let mut card_copy = card.clone();
+
+                card_copy.entity.x = x_coord;
+                card_copy.entity.y = 15 * (index as i32 + 2);
+
+                card_copy
+            })
+            .collect();
 
         Tableau {
             entity,
             offset,
-            cards,
+            cards: updated_cards,
         }
     }
 
     pub fn draw(&self, handle: &mut RaylibDrawHandle) {
         self.entity.draw(handle);
+        self.cards.iter().for_each(|card| card.draw(handle));
     }
 }
