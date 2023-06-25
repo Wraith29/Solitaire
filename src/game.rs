@@ -1,22 +1,32 @@
 use raylib::prelude::{Color, RaylibDrawHandle};
 
 use crate::{
-    card::Card,
-    constants::{CARD_HEIGHT, CARD_WIDTH, WINDOW_HEIGHT},
+    constants::{CARD_HEIGHT, CARD_WIDTH, WINDOW_HEIGHT, WINDOW_WIDTH},
     deck::get_shuffled_deck,
     entity::Entity,
     foundation::Foundation,
+    stock::{Pile, Stock},
     suit::Suit,
     tableau::Tableau,
 };
 
 pub struct Game {
-    deck: Vec<Card>,
     tableaus: Vec<Tableau>,
     foundations: Vec<Foundation>,
+    stock: Stock,
 }
 
 impl Game {
+    pub fn draw(&self, handle: &mut RaylibDrawHandle) {
+        self.tableaus
+            .iter()
+            .for_each(|tableau| tableau.draw(handle));
+        self.foundations
+            .iter()
+            .for_each(|foundation| foundation.draw(handle));
+        self.stock.draw(handle);
+    }
+
     pub fn new() -> Game {
         let deck = get_shuffled_deck();
 
@@ -30,7 +40,34 @@ impl Game {
                 total += i as usize;
                 return tableau;
             })
-            .collect::<Vec<_>>();
+            .collect();
+
+        let stock = Stock::new(
+            Pile::new(
+                deck[total..].to_vec(),
+                Entity::new(
+                    WINDOW_WIDTH - ((CARD_WIDTH + 15) * 2),
+                    WINDOW_HEIGHT - CARD_HEIGHT - 15,
+                    CARD_WIDTH,
+                    CARD_HEIGHT,
+                    Color::WHITE,
+                    Color::BLACK,
+                    5,
+                ),
+            ),
+            Pile::new(
+                vec![],
+                Entity::new(
+                    WINDOW_WIDTH - CARD_WIDTH - 15,
+                    WINDOW_HEIGHT - CARD_HEIGHT - 15,
+                    CARD_WIDTH,
+                    CARD_HEIGHT,
+                    Color::WHITE,
+                    Color::BLACK,
+                    5,
+                ),
+            ),
+        );
 
         let foundation_y_pos = WINDOW_HEIGHT - CARD_HEIGHT - 15;
         let foundations = vec![
@@ -85,19 +122,9 @@ impl Game {
         ];
 
         Game {
-            deck,
             foundations,
             tableaus,
+            stock,
         }
-    }
-
-    pub fn draw(&self, handle: &mut RaylibDrawHandle) {
-        self.deck.iter().for_each(|card| card.draw(handle));
-        self.tableaus
-            .iter()
-            .for_each(|tableau| tableau.draw(handle));
-        self.foundations
-            .iter()
-            .for_each(|foundation| foundation.draw(handle));
     }
 }

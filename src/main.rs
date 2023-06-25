@@ -9,6 +9,7 @@ mod entity;
 mod foundation;
 mod game;
 mod number;
+mod stock;
 mod suit;
 mod tableau;
 
@@ -25,5 +26,7 @@ fn main() {
         handle.clear_background(Color::WHITE);
 
         game.draw(&mut handle);
+
+        handle.draw_line(WINDOW_WIDTH / 2, 0, WINDOW_WIDTH / 2, 900, Color::BLUE);
     }
 }

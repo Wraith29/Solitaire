@@ -14,29 +14,10 @@ pub struct Tableau {
 
 impl Tableau {
     pub fn new(offset: i32, cards: Vec<Card>) -> Tableau {
-        /*
-        7 Tableaus
-        Tableau Width: CARD_WIDTH
-        Tableau Margin: 15
-
-        | = Margin
-        T = Tableau
-
-        |T|T|T|T|T|T|T|
-
-        total_tableau_width = 7 * TABLEAU_WIDTH + 8 * TABLEAU_MARGIN
-
-        window_width - total_tableau_width
-        */
-        // 15 is the margin between tableaus
         let total_tableau_width = (TABLEAU_WIDTH * 7) + (15 * 8);
         let outer_margin_per_side = (WINDOW_WIDTH - total_tableau_width) / 2;
 
-        // outer margin per side is the baseline x coord offset
-        // the 15 is for the left hand margin of the card
-        // the tableau_width + 15 is accounting for each tableau and it's margin
-        // that comes before this one
-        let x_coord = outer_margin_per_side + ((TABLEAU_WIDTH + 15) * offset);
+        let x_coord = outer_margin_per_side + (15 * offset) + (TABLEAU_WIDTH * (offset - 1));
 
         let height = CARD_HEIGHT + 15 + (15 * offset);
         let entity = Entity::new(
