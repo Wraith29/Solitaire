@@ -1,4 +1,7 @@
-use raylib::prelude::{Color, RaylibDrawHandle};
+use raylib::{
+    prelude::{Color, RaylibDrawHandle},
+    RaylibHandle,
+};
 
 use crate::{
     constants::{CARD_HEIGHT, CARD_WIDTH, WINDOW_HEIGHT, WINDOW_WIDTH},
@@ -26,6 +29,10 @@ impl Game {
             .for_each(|foundation| foundation.draw(handle));
         self.stock.draw(handle);
     }
+
+    // pub fn on_click(&self, window: &RaylibHandle) {
+    //     let mouse_pos = window.get_mouse_position();
+    // }
 
     pub fn new() -> Game {
         let deck = get_shuffled_deck();

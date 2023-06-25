@@ -1,7 +1,3 @@
-use constants::{WINDOW_HEIGHT, WINDOW_WIDTH};
-use game::Game;
-use raylib::prelude::{Color, RaylibDraw};
-
 mod card;
 mod constants;
 mod deck;
@@ -12,6 +8,10 @@ mod number;
 mod stock;
 mod suit;
 mod tableau;
+
+use constants::{WINDOW_HEIGHT, WINDOW_WIDTH};
+use game::Game;
+use raylib::prelude::{Color, RaylibDraw};
 
 fn main() {
     let (mut window, thread) = raylib::init()
