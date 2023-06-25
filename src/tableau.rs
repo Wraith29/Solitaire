@@ -9,7 +9,6 @@ use crate::{
 pub struct Tableau {
     entity: Entity,
     cards: Vec<Card>,
-    offset: i32,
 }
 
 impl Tableau {
@@ -34,10 +33,14 @@ impl Tableau {
             .iter()
             .enumerate()
             .map(|(index, card)| {
-                let mut card_copy = card.clone();
+                let mut card_copy = *card;
 
                 card_copy.entity.x = x_coord;
                 card_copy.entity.y = 15 * (index as i32 + 2);
+
+                if index as i32 + 1 == offset {
+                    card_copy.flipped = false;
+                }
 
                 card_copy
             })
@@ -45,7 +48,6 @@ impl Tableau {
 
         Tableau {
             entity,
-            offset,
             cards: updated_cards,
         }
     }

@@ -12,10 +12,10 @@ impl Pile {
         let updated_cards = cards
             .iter()
             .map(|card| {
-                let mut clone = card.clone();
+                let mut clone = *card;
                 clone.entity = entity;
 
-                return clone;
+                clone
             })
             .collect();
 

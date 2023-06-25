@@ -38,7 +38,7 @@ impl Game {
                 let tableau = Tableau::new(i, cards);
 
                 total += i as usize;
-                return tableau;
+                tableau
             })
             .collect();
 
@@ -46,7 +46,7 @@ impl Game {
             Pile::new(
                 deck[total..].to_vec(),
                 Entity::new(
-                    WINDOW_WIDTH - ((CARD_WIDTH + 15) * 2),
+                    WINDOW_WIDTH - CARD_WIDTH - 15,
                     WINDOW_HEIGHT - CARD_HEIGHT - 15,
                     CARD_WIDTH,
                     CARD_HEIGHT,
@@ -58,7 +58,7 @@ impl Game {
             Pile::new(
                 vec![],
                 Entity::new(
-                    WINDOW_WIDTH - CARD_WIDTH - 15,
+                    WINDOW_WIDTH - ((CARD_WIDTH + 15) * 2),
                     WINDOW_HEIGHT - CARD_HEIGHT - 15,
                     CARD_WIDTH,
                     CARD_HEIGHT,
