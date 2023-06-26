@@ -11,7 +11,7 @@ mod tableau;
 
 use constants::{WINDOW_HEIGHT, WINDOW_WIDTH};
 use game::Game;
-use raylib::prelude::{Color, RaylibDraw};
+use raylib::prelude::{Color, RaylibDraw, MouseButton};
 
 fn main() {
     let (mut window, thread) = raylib::init()
@@ -22,8 +22,12 @@ fn main() {
     let mut game = Game::new();
 
     while !window.window_should_close() {
-        if window.is_mouse_button_pressed(raylib::prelude::MouseButton::MOUSE_LEFT_BUTTON) {
+        if window.is_mouse_button_pressed(MouseButton::MOUSE_LEFT_BUTTON) {
             game.on_click(&window);
+        }
+
+        if window.is_mouse_button_down(MouseButton::MOUSE_LEFT_BUTTON) {
+            game.on_drag(&window);
         }
 
         let mut handle = window.begin_drawing(&thread);

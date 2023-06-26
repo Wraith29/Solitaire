@@ -1,4 +1,7 @@
-use raylib::prelude::{Color, RaylibDraw, RaylibDrawHandle};
+use raylib::{
+    prelude::{Color, RaylibDraw, RaylibDrawHandle},
+    RaylibHandle,
+};
 
 use crate::{constants::FONT_SIZE, entity::Entity, number::Number, suit::Suit};
 
@@ -7,7 +10,7 @@ pub struct Card {
     pub entity: Entity,
     pub number: Number,
     pub suit: Suit,
-    pub flipped: bool,
+    pub hidden: bool,
 }
 
 impl Card {
@@ -19,7 +22,7 @@ impl Card {
     }
 
     pub fn draw(&self, handle: &mut RaylibDrawHandle) {
-        if !self.flipped {
+        if !self.hidden {
             self.entity.draw(handle);
             handle.draw_text(
                 &self.name(),
@@ -36,6 +39,33 @@ impl Card {
                 self.entity.height,
                 Color::BLACK,
             );
+        }
+    }
+
+    pub fn can_stack(&self, other: &Card) -> bool {
+        if self.suit.is_red() && other.suit.is_red() {
+            return false;
+        } else if self.suit.is_black() && other.suit.is_black() {
+            return false;
+        } else {
+            if other.number.next() == self.number {
+                println!("Hello");
+                return true;
+            }
+            return false;
+        }
+    }
+
+    pub fn on_click(&mut self, window: &RaylibHandle) {
+        if self.hidden {
+            return;
+        }
+
+        let mouse_pos = window.get_mouse_position();
+
+        if self.entity.contains(mouse_pos) {
+            self.entity.x = mouse_pos.x as i32 - self.entity.width / 2;
+            self.entity.y = mouse_pos.y as i32 - self.entity.height / 2;
         }
     }
 }

@@ -34,6 +34,14 @@ impl Game {
         self.stock.on_click(window);
     }
 
+    pub fn on_drag(&mut self, window: &RaylibHandle) {
+        self.tableaus.iter_mut().for_each(|tableau| {
+            tableau.cards.iter_mut().for_each(|card| {
+                card.on_click(window);
+            })
+        });
+    }
+
     pub fn new() -> Game {
         let deck = get_shuffled_deck();
 

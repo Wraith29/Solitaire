@@ -54,7 +54,7 @@ impl Stock {
             if self.stock.cards.len() > 0 {
                 // TODO: Remove Unwrap at some point
                 let mut card = self.stock.cards.pop().unwrap();
-                card.flipped = false;
+                card.hidden = false;
                 card.entity = self.waste.entity;
 
                 self.waste.cards.push(card);
@@ -67,7 +67,7 @@ impl Stock {
                     .map(|card| {
                         let mut card_copy = *card;
                         card_copy.entity = self.stock.entity;
-                        card_copy.flipped = true;
+                        card_copy.hidden = true;
                         card_copy
                     })
                     .collect();

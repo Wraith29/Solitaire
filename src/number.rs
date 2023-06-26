@@ -1,18 +1,38 @@
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, PartialEq)]
 pub enum Number {
-    Ace,
-    Two,
-    Three,
-    Four,
-    Five,
-    Six,
-    Seven,
-    Eight,
-    Nine,
-    Ten,
-    Jack,
-    Queen,
-    King,
+    Ace = 1,
+    Two = 2,
+    Three = 3,
+    Four = 4,
+    Five = 5,
+    Six = 6,
+    Seven = 7,
+    Eight = 8,
+    Nine = 9,
+    Ten = 10,
+    Jack = 11,
+    Queen = 12,
+    King = 13,
+}
+
+impl Number {
+    pub fn next(&self) -> Number {
+        match self {
+            Number::Ace => Number::Two,
+            Number::Two => Number::Three,
+            Number::Three => Number::Four,
+            Number::Four => Number::Five,
+            Number::Five => Number::Six,
+            Number::Six => Number::Seven,
+            Number::Seven => Number::Eight,
+            Number::Eight => Number::Nine,
+            Number::Nine => Number::Ten,
+            Number::Ten => Number::Jack,
+            Number::Jack => Number::Queen,
+            Number::Queen => Number::King,
+            Number::King => Number::Ace,
+        }
+    }
 }
 
 impl ToString for Number {

@@ -8,7 +8,7 @@ use crate::{
 
 pub struct Tableau {
     entity: Entity,
-    cards: Vec<Card>,
+    pub cards: Vec<Card>,
 }
 
 impl Tableau {
@@ -39,7 +39,7 @@ impl Tableau {
                 card_copy.entity.y = 15 * (index as i32 + 2);
 
                 if index as i32 + 1 == offset {
-                    card_copy.flipped = false;
+                    card_copy.hidden = false;
                 }
 
                 card_copy

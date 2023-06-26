@@ -15,6 +15,18 @@ impl Suit {
             Suit::Clubs | Suit::Spades => Color::BLACK,
         }
     }
+
+    pub fn is_red(&self) -> bool {
+        match self {
+            Suit::Hearts | Suit::Diamonds => true,
+            Suit::Clubs | Suit::Spades => false,
+        }
+    }
+
+    // Just a slightly nicer way than manually doing `!is_red`
+    pub fn is_black(&self) -> bool {
+        !self.is_red()
+    }
 }
 
 impl ToString for Suit {
