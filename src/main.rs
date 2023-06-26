@@ -19,9 +19,13 @@ fn main() {
         .title("Solitaire")
         .build();
 
-    let game = Game::new();
+    let mut game = Game::new();
 
     while !window.window_should_close() {
+        if window.is_mouse_button_pressed(raylib::prelude::MouseButton::MOUSE_LEFT_BUTTON) {
+            game.on_click(&window);
+        }
+
         let mut handle = window.begin_drawing(&thread);
         handle.clear_background(Color::WHITE);
 

@@ -1,4 +1,4 @@
-use raylib::prelude::{Color, RaylibDraw, RaylibDrawHandle};
+use raylib::prelude::{Color, RaylibDraw, RaylibDrawHandle, Vector2};
 
 #[derive(Clone, Copy, Debug)]
 pub struct Entity {
@@ -44,5 +44,12 @@ impl Entity {
             self.height - (self.border_offset * 2),
             self.colour,
         );
+    }
+
+    pub fn contains(&self, pos: Vector2) -> bool {
+        self.x as f32 <= pos.x
+            && (self.x + self.width) as f32 >= pos.x
+            && self.y as f32 <= pos.y
+            && (self.y + self.height) as f32 >= pos.y
     }
 }

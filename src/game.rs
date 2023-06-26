@@ -30,9 +30,9 @@ impl Game {
         self.stock.draw(handle);
     }
 
-    // pub fn on_click(&self, window: &RaylibHandle) {
-    //     let mouse_pos = window.get_mouse_position();
-    // }
+    pub fn on_click(&mut self, window: &RaylibHandle) {
+        self.stock.on_click(window);
+    }
 
     pub fn new() -> Game {
         let deck = get_shuffled_deck();
