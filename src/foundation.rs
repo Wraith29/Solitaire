@@ -29,7 +29,7 @@ impl Foundation {
     pub fn draw(&self, handle: &mut RaylibDrawHandle) {
         self.entity.draw(handle);
 
-        if self.cards.len() >= 1 {
+        if !self.cards.is_empty() {
             // TODO: Remove Unwrap
             handle.draw_text(
                 &self.cards.first().unwrap().name(),

@@ -51,7 +51,7 @@ impl Stock {
         let mouse_pos = window.get_mouse_position();
 
         if self.stock.entity.contains(mouse_pos) {
-            if self.stock.cards.len() > 0 {
+            if !self.stock.cards.is_empty() {
                 // TODO: Remove Unwrap at some point
                 let mut card = self.stock.cards.pop().unwrap();
                 card.hidden = false;

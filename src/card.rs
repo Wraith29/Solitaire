@@ -44,7 +44,7 @@ impl Card {
 
     pub fn can_stack(&self, other: &Card) -> bool {
         if self.suit.is_red() && other.suit.is_red() {
-            return false;
+            false
         } else if self.suit.is_black() && other.suit.is_black() {
             return false;
         } else {
@@ -56,9 +56,8 @@ impl Card {
         }
     }
 
-    pub fn on_drag(&self, window: &RaylibHandle) {
+    pub fn on_drag(&self, _window: &RaylibHandle) {
         if self.hidden {
-            return;
         }
     }
 
