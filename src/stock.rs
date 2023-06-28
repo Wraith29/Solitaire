@@ -3,8 +3,8 @@ use raylib::{prelude::RaylibDrawHandle, RaylibHandle};
 use crate::{card::Card, entity::Entity};
 
 pub struct Pile {
-    cards: Vec<Card>,
-    entity: Entity,
+    pub cards: Vec<Card>,
+    pub entity: Entity,
 }
 
 impl Pile {
@@ -33,8 +33,8 @@ impl Pile {
 }
 
 pub struct Stock {
-    stock: Pile,
-    waste: Pile,
+    pub stock: Pile,
+    pub waste: Pile,
 }
 
 impl Stock {

@@ -8,6 +8,7 @@ use crate::{
     deck::get_shuffled_deck,
     entity::Entity,
     foundation::Foundation,
+    state::State,
     stock::{Pile, Stock},
     suit::Suit,
     tableau::Tableau,
@@ -17,6 +18,7 @@ pub struct Game {
     tableaus: Vec<Tableau>,
     foundations: Vec<Foundation>,
     stock: Stock,
+    state: State,
 }
 
 impl Game {
@@ -31,15 +33,44 @@ impl Game {
     }
 
     pub fn on_click(&mut self, window: &RaylibHandle) {
+        let mouse_pos = window.get_mouse_position();
+        self.tableaus.iter().for_each(|tableau| {
+            tableau.cards.iter().for_each(|card| {
+                if card.entity.contains(mouse_pos) {
+                    self.state.selected_card = Some(card.to_owned());
+                }
+            })
+        });
+
+        self.foundations.iter().for_each(|foundation| {
+            foundation.cards.iter().for_each(|card| {
+                if card.entity.contains(mouse_pos) {
+                    self.state.selected_card = Some(card.to_owned());
+                }
+            });
+        });
+
         self.stock.on_click(window);
+
+        self.stock.waste.cards.iter().for_each(|card| {
+            if card.entity.contains(mouse_pos) {
+                self.state.selected_card = Some(card.to_owned());
+            }
+        });
+
+        println!("Selected: {:#?}", self.state.selected_card);
     }
 
     pub fn on_drag(&mut self, window: &RaylibHandle) {
-        self.tableaus.iter_mut().for_each(|tableau| {
-            tableau.cards.iter_mut().for_each(|card| {
-                card.on_click(window);
-            })
-        });
+        let mouse_pos = window.get_mouse_position();
+        let Some(mut card) = self.state.selected_card else { return };
+        card.entity.x = mouse_pos.x as i32;
+        card.entity.y = mouse_pos.y as i32;
+        println!("Setting {card:#?} entity as {mouse_pos:?}");
+    }
+
+    pub fn on_release(&mut self, _window: &RaylibHandle) {
+        self.state.selected_card = None;
     }
 
     pub fn new() -> Game {
@@ -49,8 +80,8 @@ impl Game {
 
         let tableaus = (1..=7)
             .map(|i| {
-                let cards = deck[total..total + (i as usize)].to_vec();
-                let tableau = Tableau::new(i, cards);
+                let mut cards = deck[total..total + (i as usize)].to_vec();
+                let tableau = Tableau::new(i, &mut cards);
 
                 total += i as usize;
                 tableau
@@ -140,6 +171,7 @@ impl Game {
             foundations,
             tableaus,
             stock,
+            state: State::new(),
         }
     }
 }

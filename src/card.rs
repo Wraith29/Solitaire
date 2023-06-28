@@ -5,7 +5,7 @@ use raylib::{
 
 use crate::{constants::FONT_SIZE, entity::Entity, number::Number, suit::Suit};
 
-#[derive(Clone, Copy)]
+#[derive(Debug, Clone, Copy)]
 pub struct Card {
     pub entity: Entity,
     pub number: Number,
@@ -53,6 +53,12 @@ impl Card {
                 return true;
             }
             return false;
+        }
+    }
+
+    pub fn on_drag(&self, window: &RaylibHandle) {
+        if self.hidden {
+            return;
         }
     }
 

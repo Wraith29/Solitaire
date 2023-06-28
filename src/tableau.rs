@@ -12,7 +12,7 @@ pub struct Tableau {
 }
 
 impl Tableau {
-    pub fn new(offset: i32, cards: Vec<Card>) -> Tableau {
+    pub fn new(offset: i32, cards: &mut Vec<Card>) -> Tableau {
         let total_tableau_width = (TABLEAU_WIDTH * 7) + (15 * 8);
         let outer_margin_per_side = (WINDOW_WIDTH - total_tableau_width) / 2;
 
@@ -30,19 +30,17 @@ impl Tableau {
         );
 
         let updated_cards = cards
-            .iter()
+            .iter_mut()
             .enumerate()
             .map(|(index, card)| {
-                let mut card_copy = *card;
-
-                card_copy.entity.x = x_coord;
-                card_copy.entity.y = 15 * (index as i32 + 2);
+                card.entity.x = x_coord;
+                card.entity.y = 15 * (index as i32 + 2);
 
                 if index as i32 + 1 == offset {
-                    card_copy.hidden = false;
+                    card.hidden = false;
                 }
 
-                card_copy
+                card.to_owned()
             })
             .collect();
 

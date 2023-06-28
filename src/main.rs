@@ -5,13 +5,14 @@ mod entity;
 mod foundation;
 mod game;
 mod number;
+mod state;
 mod stock;
 mod suit;
 mod tableau;
 
 use constants::{WINDOW_HEIGHT, WINDOW_WIDTH};
 use game::Game;
-use raylib::prelude::{Color, RaylibDraw, MouseButton};
+use raylib::prelude::{Color, MouseButton, RaylibDraw};
 
 fn main() {
     let (mut window, thread) = raylib::init()
@@ -28,6 +29,10 @@ fn main() {
 
         if window.is_mouse_button_down(MouseButton::MOUSE_LEFT_BUTTON) {
             game.on_drag(&window);
+        }
+
+        if window.is_mouse_button_released(MouseButton::MOUSE_LEFT_BUTTON) {
+            game.on_release(&window);
         }
 
         let mut handle = window.begin_drawing(&thread);

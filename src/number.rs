@@ -1,4 +1,4 @@
-#[derive(Clone, Copy, PartialEq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
 pub enum Number {
     Ace = 1,
     Two = 2,

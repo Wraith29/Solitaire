@@ -1,6 +1,6 @@
 use raylib::prelude::Color;
 
-#[derive(Clone, Copy)]
+#[derive(Debug, Clone, Copy)]
 pub enum Suit {
     Clubs,
     Diamonds,
